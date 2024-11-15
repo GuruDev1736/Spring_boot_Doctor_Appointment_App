@@ -30,6 +30,8 @@ public class User {
     private String qualification;
     private String services ;
     private String availability;
+    private String startTime;
+    private String EndTime;
     private Integer fees ;
     private String profileImage;
     @Column(unique = true)

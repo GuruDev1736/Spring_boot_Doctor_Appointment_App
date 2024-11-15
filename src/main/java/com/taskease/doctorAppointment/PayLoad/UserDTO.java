@@ -26,6 +26,8 @@ public class UserDTO {
     private String services ;
     private String availability;
     private Integer fees ;
+    private String startTime;
+    private String EndTime;
     private String profileImage;
     @Size(min = 10, max = 10, message = "Phone No must be 10 Digits")
     private String phoneNo;

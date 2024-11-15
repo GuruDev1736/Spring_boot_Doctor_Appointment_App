@@ -13,11 +13,11 @@ public interface UserRepo extends JpaRepository<User,Long> {
 
     Optional<User> findByEmail(String email);
 
-    @Query("SELECT u FROM User u JOIN u.roles r WHERE r.roleName = :role AND u.enabled = true")
-    List<User> findUsersByRole(@Param("role") String role);
-
     @Query("SELECT u FROM User u JOIN u.roles r WHERE r.roleName = :role AND u.enabled = false")
     List<User> disabledUsers(@Param("role") String role);
+
+    @Query("SELECT u FROM User u JOIN u.roles r WHERE r.roleName = :role AND u.enabled = true")
+    List<User> enabledUsers(@Param("role") String role);
 
 
 }

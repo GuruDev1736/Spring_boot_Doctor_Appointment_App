@@ -84,6 +84,13 @@ public class AuthController {
         return ResponseEntity.ok(new ApiResponse<>("200","User Created Successfully",userDTO1));
     }
 
+    @PostMapping("/doctor/register")
+    public ResponseEntity<ApiResponse<UserDTO>> createDoctor(@RequestBody UserDTO userDTO)
+    {
+        UserDTO userDTO1 = this.userService.createDoctor(userDTO);
+        return ResponseEntity.ok(new ApiResponse<>("200","Doctor Created Successfully",userDTO1));
+    }
+
 
     private void doAuthenticate(String email, String password) {
 
