@@ -47,6 +47,8 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
 
+    @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+    private Set<Appointments> appointments = new HashSet<>();
 
 
 }
