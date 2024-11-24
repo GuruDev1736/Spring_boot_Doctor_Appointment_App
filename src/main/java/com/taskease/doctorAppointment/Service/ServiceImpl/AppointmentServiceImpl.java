@@ -3,14 +3,18 @@ package com.taskease.doctorAppointment.Service.ServiceImpl;
 import com.taskease.doctorAppointment.Constant.EmailService;
 import com.taskease.doctorAppointment.Exception.ResourceNotFoundException;
 import com.taskease.doctorAppointment.Model.Appointments;
+import com.taskease.doctorAppointment.Model.Doctor;
 import com.taskease.doctorAppointment.Model.User;
 import com.taskease.doctorAppointment.PayLoad.AppointmentDTO;
 import com.taskease.doctorAppointment.Repository.AppointmentRepo;
+import com.taskease.doctorAppointment.Repository.DoctorRepository;
 import com.taskease.doctorAppointment.Repository.UserRepo;
 import com.taskease.doctorAppointment.Service.AppointmentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.print.Doc;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -18,6 +22,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private DoctorRepository doctorRepository;
 
     @Autowired
     private AppointmentRepo appointmentRepo;
@@ -29,11 +36,12 @@ public class AppointmentServiceImpl implements AppointmentService {
     private EmailService emailService ;
 
     @Override
-    public AppointmentDTO createAppointment(long userId, AppointmentDTO appointmentDTO) {
+    public AppointmentDTO createAppointment(long userId , long doctorId, AppointmentDTO appointmentDTO) {
         User user = this.userRepo.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User","id",userId));
-        this.userRepo.findById(appointmentDTO.getDoctorId()).orElseThrow(()-> new ResourceNotFoundException("Doctor","id",appointmentDTO.getDoctorId()));
+        Doctor doctor = this.doctorRepository.findById(doctorId).orElseThrow(()-> new ResourceNotFoundException("Doctor","Id",doctorId));
         Appointments appointments = this.modelMapper.map(appointmentDTO,Appointments.class);
         appointments.setUser(user);
+        appointments.setDoctor(doctor);
         Appointments save = this.appointmentRepo.save(appointments);
         return this.modelMapper.map(save,AppointmentDTO.class);
     }
@@ -41,7 +49,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public AppointmentDTO postpondAppointment(long doctorId , long appointmentId, AppointmentDTO appointmentDTO) {
         Appointments appointments = this.appointmentRepo.findById(appointmentId).orElseThrow(()-> new ResourceNotFoundException("Appointment","id",appointmentId));
-        User doctor  = this.userRepo.findById(doctorId).orElseThrow(()-> new ResourceNotFoundException("Doctor","id",doctorId));
+        Doctor doctor  = this.doctorRepository.findById(doctorId).orElseThrow(()-> new ResourceNotFoundException("Doctor","id",doctorId));
         appointments.setDate(appointmentDTO.getDate());
         appointments.setTime(appointmentDTO.getTime());
         appointments.setTitle(appointmentDTO.getTitle());

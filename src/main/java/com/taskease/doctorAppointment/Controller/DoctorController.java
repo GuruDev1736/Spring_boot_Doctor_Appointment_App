@@ -2,7 +2,9 @@ package com.taskease.doctorAppointment.Controller;
 
 
 import com.taskease.doctorAppointment.PayLoad.ApiResponse;
+import com.taskease.doctorAppointment.PayLoad.DoctorDTO;
 import com.taskease.doctorAppointment.PayLoad.UserDTO;
+import com.taskease.doctorAppointment.Service.DoctorService;
 import com.taskease.doctorAppointment.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,19 +19,19 @@ import java.util.List;
 public class DoctorController {
 
     @Autowired
-    private UserService userService;
+    private DoctorService doctorService;
 
     @GetMapping("/")
-    public ResponseEntity<ApiResponse<List<UserDTO>>> getAllEnabledDoctor()
+    public ResponseEntity<ApiResponse<List<DoctorDTO>>> getAllEnabledDoctor()
     {
-        List<UserDTO> allEnabledUser = this.userService.getAllEnabledUser();
-        return ResponseEntity.ok(new ApiResponse<>("200","Users Fetched Successfully",allEnabledUser));
+        List<DoctorDTO> allEnabledUser = this.doctorService.getAllEnabledDoctor();
+        return ResponseEntity.ok(new ApiResponse<>("200","Doctors Fetched Successfully",allEnabledUser));
     }
 
     @GetMapping("/disabled")
-    public ResponseEntity<ApiResponse<List<UserDTO>>> getAllDisabledUsers()
+    public ResponseEntity<ApiResponse<List<DoctorDTO>>> getAllDisabledUsers()
     {
-        List<UserDTO> allDisabledUsers = this.userService.getAllDisabledUser();
-        return ResponseEntity.ok(new ApiResponse<>("200","Users Fetched Successfully",allDisabledUsers));
+        List<DoctorDTO> allDisabledUsers = this.doctorService.getAllDisabledDoctor();
+        return ResponseEntity.ok(new ApiResponse<>("200","Doctors Fetched Successfully",allDisabledUsers));
     }
 }

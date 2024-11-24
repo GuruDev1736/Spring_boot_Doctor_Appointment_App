@@ -16,8 +16,8 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "User")
-public class User {
+@Table(name = "doctor")
+public class Doctor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +26,13 @@ public class User {
     private String fullName;
     private String address;
     private Integer age ;
+    private String hospitalAddress ;
+    private String qualification;
+    private String services ;
+    private String availability;
+    private String startTime;
+    private String EndTime;
+    private Integer fees ;
     private String profileImage;
     @Column(unique = true)
     private String phoneNo;
@@ -36,14 +43,15 @@ public class User {
     private Date creationDate;
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "id"))
+    @JoinTable(name = "doctor_role", joinColumns = @JoinColumn(name = "doctor", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "id"))
     private Set<Role> roles = new HashSet<>();
 
 
-    @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "doctor" , cascade = CascadeType.ALL , fetch = FetchType.LAZY)
     private Set<Appointments> appointments = new HashSet<>();
 
-    @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+
+    @OneToMany(mappedBy = "doctor" , cascade = CascadeType.ALL , fetch = FetchType.LAZY)
     private Set<RatingAndReview> ratingAndReviews = new HashSet<>();
 
 

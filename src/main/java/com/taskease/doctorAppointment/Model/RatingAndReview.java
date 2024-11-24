@@ -7,27 +7,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "appointments")
-public class Appointments {
+@Table(name = "rating_and_review")
+public class RatingAndReview {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id ;
-    private String date;
-    private String time ;
-    private Boolean paymentStatus;
-    private String paymentId;
-    private String amount ;
-    private String title ;
-    private String description;
-    private String status;
-    private String reason;
-    private String refundAmount;
+    private long id;
+    private int rating;
+    private String review;
+    private Date date;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id",referencedColumnName = "id")
@@ -36,7 +31,6 @@ public class Appointments {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "doctor_id",referencedColumnName = "id")
     private Doctor doctor;
-
 
 
 }

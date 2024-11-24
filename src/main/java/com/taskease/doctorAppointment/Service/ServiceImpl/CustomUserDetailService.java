@@ -2,8 +2,10 @@ package com.taskease.doctorAppointment.Service.ServiceImpl;
 
 
 
+import com.taskease.doctorAppointment.Model.Doctor;
 import com.taskease.doctorAppointment.Model.Role;
 import com.taskease.doctorAppointment.Model.User;
+import com.taskease.doctorAppointment.Repository.DoctorRepository;
 import com.taskease.doctorAppointment.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,6 +24,9 @@ public class CustomUserDetailService implements UserDetailsService {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    private DoctorRepository doctorRepository ;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // Check if the username belongs to a user or company
@@ -39,7 +44,12 @@ public class CustomUserDetailService implements UserDetailsService {
             return createUserDetails(user.getEmail(), user.getPassword(), user.getRoles());
         }
 
-        return null; // Return null if neither User nor Company found
+        Doctor doctor = doctorRepository.findByEmail(username).orElse(null);
+        if (doctor != null) {
+            return createUserDetails(doctor.getEmail(), doctor.getPassword(), doctor.getRoles());
+        }
+
+        return null;
     }
 
     private UserDetails createUserDetails(String email, String password, Set<Role> roles) {

@@ -4,7 +4,7 @@ import com.taskease.doctorAppointment.PayLoad.AppointmentDTO;
 
 public interface AppointmentService {
 
-    AppointmentDTO createAppointment(long userId, AppointmentDTO appointmentDTO);
+    AppointmentDTO createAppointment(long userId, long doctorId , AppointmentDTO appointmentDTO);
     AppointmentDTO postpondAppointment(long doctorId , long appointmentId , AppointmentDTO appointmentDTO);
 
 

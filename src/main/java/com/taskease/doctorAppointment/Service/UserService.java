@@ -16,13 +16,4 @@ public interface UserService {
     //common
     void enabledUser(long userId);
     void disabledUser(long userId);
-
-
-
-
-    // Doctor
-    UserDTO createDoctor(UserDTO userDTO);
-    List<UserDTO> getAllEnabledDoctor();
-    List<UserDTO> getAllDisabledDoctor();
-
 }

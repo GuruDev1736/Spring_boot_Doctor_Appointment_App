@@ -22,6 +22,6 @@ public class AppointmentDTO {
     private String status = "BOOKED";
     private String reason;
     private String refundAmount;
-    private long doctorId;
     private UserDTO user;
+    private DoctorDTO doctor;
 }

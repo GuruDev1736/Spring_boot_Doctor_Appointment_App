@@ -83,28 +83,4 @@ public class UserServiceImpl  implements UserService {
         List<UserDTO> userDTOS = this.userRepo.disabledUsers(Constants.USER_ROLE_NAME).stream().map(user -> this.modelMapper.map(user,UserDTO.class)).toList();
         return userDTOS;
     }
-
-    @Override
-    public UserDTO createDoctor(UserDTO userDTO) {
-        User user = this.modelMapper.map(userDTO,User.class);
-        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-
-        Role role = this.roleRepo.findById(Constants.DOCTOR_ROLE).get();
-        user.getRoles().add(role);
-        user.setCreationDate(new Date());
-        User save = this.userRepo.save(user);
-        return this.modelMapper.map(save,UserDTO.class);
-    }
-
-    @Override
-    public List<UserDTO> getAllEnabledDoctor() {
-        List<UserDTO> userDTOS = this.userRepo.enabledUsers(Constants.DOCTOR_ROLE_NAME).stream().map(user -> this.modelMapper.map(user,UserDTO.class)).toList();
-        return userDTOS;
-    }
-
-    @Override
-    public List<UserDTO> getAllDisabledDoctor() {
-        List<UserDTO> userDTOS = this.userRepo.disabledUsers(Constants.DOCTOR_ROLE_NAME).stream().map(user -> this.modelMapper.map(user,UserDTO.class)).toList();
-        return userDTOS;
-    }
 }
