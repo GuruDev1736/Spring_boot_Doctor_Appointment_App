@@ -33,4 +33,27 @@ public class EmailService {
                 "DocConnect Team\n");
         mailSender.send(message);
     }
+
+
+    public void cancelAppointment(String email, String userName, String userEmail, String phone, String doctorName) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+        message.setSubject("Appointment Cancellation Notification");
+        message.setText("Dear " + doctorName + ",\n" +
+                "\n" +
+                "I hope this message finds you well. I wanted to inform you that the following appointment has been canceled:\n" +
+                "\n" +
+                "User: " + userName + "\n" +
+                "User Email: " + userEmail + "\n" +
+                "User Phone: " + phone + "\n" +
+                "\n" +
+                "We sincerely apologize for any inconvenience this may cause. Please let us know if you have any concerns or need further assistance.\n" +
+                "\n" +
+                "Thank you for your understanding.\n" +
+                "\n" +
+                "Best regards,\n" +
+                "DocConnect Team\n");
+        mailSender.send(message);
+    }
+
 }

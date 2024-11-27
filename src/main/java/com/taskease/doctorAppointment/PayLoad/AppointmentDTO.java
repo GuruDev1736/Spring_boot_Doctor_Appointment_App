@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -22,6 +24,8 @@ public class AppointmentDTO {
     private String status = "BOOKED";
     private String reason;
     private String refundAmount;
+    public Date creationDate;
     private UserDTO user;
     private DoctorDTO doctor;
+
 }
