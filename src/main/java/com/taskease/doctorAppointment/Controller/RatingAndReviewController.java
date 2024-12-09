@@ -25,6 +25,7 @@ public class RatingAndReviewController {
         return ResponseEntity.ok(new ApiResponse<>("200","Rating Posted Successfully",ratingAndReviewDTO1));
     }
 
+
     @GetMapping("/{doctorId}")
     public ResponseEntity<ApiResponse<List<RatingAndReviewDTO>>> getAllRatingOfTheDoctor(@PathVariable("doctorId") long doctorId)
     {
