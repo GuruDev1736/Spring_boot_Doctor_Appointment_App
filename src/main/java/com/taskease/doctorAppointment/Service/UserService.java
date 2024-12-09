@@ -16,4 +16,8 @@ public interface UserService {
     //common
     void enabledUser(long userId);
     void disabledUser(long userId);
+
+    void sendOTP(String email);
+    Boolean validateOTP(String email , String otp);
+    void changePassword(String email , String password);
 }

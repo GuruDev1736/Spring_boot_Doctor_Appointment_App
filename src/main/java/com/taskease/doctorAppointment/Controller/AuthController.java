@@ -143,6 +143,31 @@ public class AuthController {
         return ResponseEntity.ok(new ApiResponse<>("200","Doctor Created Successfully",userDTO1));
     }
 
+    @PostMapping("/send-otp")
+    public ResponseEntity<ApiResponse<String>> sendOTP(@RequestParam("email") String email){
+        this.userService.sendOTP(email);
+        return ResponseEntity.ok(new ApiResponse<>("200","OTP sent successfully",""));
+    }
+
+    @PostMapping("/validate-otp")
+    public ResponseEntity<ApiResponse<String>> validateOTP(@RequestParam("email") String email , @RequestParam("otp") String otp){
+        Boolean message = this.userService.validateOTP(email,otp);
+        if (message)
+        {
+            return ResponseEntity.ok(new ApiResponse<>("200","Success! OTP is valid.",""));
+        }
+        else
+        {
+            return ResponseEntity.ok(new ApiResponse<>("500","Invalid OTP",""));
+        }
+    }
+
+    @PutMapping("/changePassword")
+    public ResponseEntity<ApiResponse<String>> changePassword(@RequestParam("email") String email , @RequestParam("password") String password){
+        this.userService.changePassword(email,password);
+        return ResponseEntity.ok(new ApiResponse<>("200","Password changed Successfully",""));
+    }
+
 
     private void doAuthenticate(String email, String password) {
 

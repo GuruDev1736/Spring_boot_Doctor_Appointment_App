@@ -13,5 +13,5 @@ public interface DoctorService {
     List<DoctorDTO> getAllDisabledDoctor();
     void enabledDoctor(long doctorId);
     void disabledDoctor(long doctorId);
-
+    DoctorDTO getDoctorById(long id);
 }

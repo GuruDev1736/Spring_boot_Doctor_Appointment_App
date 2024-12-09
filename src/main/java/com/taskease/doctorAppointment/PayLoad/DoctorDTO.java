@@ -39,4 +39,5 @@ public class DoctorDTO {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private Date creationDate;
+    private int ratingAndReview ;
 }

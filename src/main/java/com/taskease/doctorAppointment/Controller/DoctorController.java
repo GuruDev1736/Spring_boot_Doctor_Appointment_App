@@ -9,6 +9,7 @@ import com.taskease.doctorAppointment.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,5 +34,11 @@ public class DoctorController {
     {
         List<DoctorDTO> allDisabledUsers = this.doctorService.getAllDisabledDoctor();
         return ResponseEntity.ok(new ApiResponse<>("200","Doctors Fetched Successfully",allDisabledUsers));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<DoctorDTO>> getDoctorById(@PathVariable int id){
+        DoctorDTO doctorDTO = this.doctorService.getDoctorById(id);
+        return ResponseEntity.ok(new ApiResponse<>("200","Doctor Fetched Successfully",doctorDTO));
     }
 }

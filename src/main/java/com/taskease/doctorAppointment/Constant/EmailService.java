@@ -7,8 +7,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
-    @Autowired
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
+
+    public EmailService(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+    }
 
     public void postpondAppointment(String email, String date , String time , String userName, String userEmail , String phone, String doctorName) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -53,6 +56,15 @@ public class EmailService {
                 "\n" +
                 "Best regards,\n" +
                 "DocConnect Team\n");
+        mailSender.send(message);
+    }
+
+
+    public void sendOtp(String email, String otp) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+        message.setSubject("Your OTP Code");
+        message.setText("Your OTP code is: " + otp);
         mailSender.send(message);
     }
 

@@ -50,6 +50,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/auth/send-otp").permitAll()
                         .requestMatchers("/auth/validate-otp").permitAll()
+                        .requestMatchers("/auth/changePassword").permitAll()
                         .requestMatchers("/auth/doctor/register").permitAll()
                         .requestMatchers("/auth/user/register").permitAll()
                         .anyRequest().authenticated())

@@ -1,12 +1,16 @@
 package com.taskease.doctorAppointment.Service.ServiceImpl;
 
 import com.taskease.doctorAppointment.Constant.Constants;
+import com.taskease.doctorAppointment.Exception.ResourceNotFoundException;
 import com.taskease.doctorAppointment.Model.Doctor;
+import com.taskease.doctorAppointment.Model.RatingAndReview;
 import com.taskease.doctorAppointment.Model.Role;
 import com.taskease.doctorAppointment.Model.User;
 import com.taskease.doctorAppointment.PayLoad.DoctorDTO;
+import com.taskease.doctorAppointment.PayLoad.RatingAndReviewDTO;
 import com.taskease.doctorAppointment.PayLoad.UserDTO;
 import com.taskease.doctorAppointment.Repository.DoctorRepository;
+import com.taskease.doctorAppointment.Repository.RatingAndReviewRepo;
 import com.taskease.doctorAppointment.Repository.RoleRepo;
 import com.taskease.doctorAppointment.Service.DoctorService;
 import org.modelmapper.ModelMapper;
@@ -21,17 +25,24 @@ import java.util.List;
 @Service
 public class DoctorServiceImpl implements DoctorService {
 
-    @Autowired
-    private ModelMapper modelMapper ;
+    private final ModelMapper modelMapper ;
 
-    @Autowired
-    private DoctorRepository doctorRepository ;
+    private final DoctorRepository doctorRepository ;
 
-    @Autowired
-    private RoleRepo roleRepo;
+    private final RatingAndReviewRepo ratingAndReviewRepo;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+
+    private final RoleRepo roleRepo;
+
+    private final PasswordEncoder passwordEncoder;
+
+    public DoctorServiceImpl(ModelMapper modelMapper, DoctorRepository doctorRepository, RatingAndReviewRepo ratingAndReviewRepo, RoleRepo roleRepo, PasswordEncoder passwordEncoder) {
+        this.modelMapper = modelMapper;
+        this.doctorRepository = doctorRepository;
+        this.ratingAndReviewRepo = ratingAndReviewRepo;
+        this.roleRepo = roleRepo;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public DoctorDTO updateDoctor(long userId, DoctorDTO userDTO) {
@@ -70,5 +81,31 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public void disabledDoctor(long doctorId) {
 
+    }
+
+    @Override
+    public DoctorDTO getDoctorById(long id) {
+        // Fetch the doctor entity
+        Doctor doctor = this.doctorRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Doctor", "id", id));
+
+        // Map Doctor entity to DoctorDTO
+        DoctorDTO doctorDTO = this.modelMapper.map(doctor, DoctorDTO.class);
+
+        // Fetch ratings and reviews for the doctor
+        List<RatingAndReview> ratingsAndReviews = this.ratingAndReviewRepo.findByDoctor(doctor);
+
+        // Calculate the average rating
+        if (!ratingsAndReviews.isEmpty()) {
+            double averageRating = ratingsAndReviews.stream()
+                    .mapToInt(RatingAndReview::getRating) // Extract the rating
+                    .average() // Calculate average
+                    .orElse(0.0); // Default to 0.0 if no ratings
+            doctorDTO.setRatingAndReview((int) Math.round(averageRating)); // Assign the rounded average
+        } else {
+            doctorDTO.setRatingAndReview(0); // No reviews, set rating to 0
+        }
+
+        return doctorDTO;
     }
 }
