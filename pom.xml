@@ -101,6 +101,12 @@
 		</dependency>
 
 
+		<dependency>
+			<groupId>com.stripe</groupId>
+			<artifactId>stripe-java</artifactId>
+			<version>22.11.0</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
